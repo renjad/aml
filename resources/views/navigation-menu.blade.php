@@ -18,14 +18,20 @@
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link href="{{ route('queues') }}" :active="request()->routeIs('queues')" wire:navigate>
-                        {{ __('Queues') }}
+                    <x-nav-link href="{{ route('roles') }}" :active="request()->routeIs('roles')" wire:navigate>
+                        {{ __('Roles') }}
                     </x-nav-link>
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link href="{{ route('users') }}" :active="request()->routeIs('users')" wire:navigate>
                         {{ __('Users') }}
+                    </x-nav-link>
+                </div>
+
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link href="{{ route('queues') }}" :active="request()->routeIs('queues')" wire:navigate>
+                        {{ __('Queues') }}
                     </x-nav-link>
                 </div>
             </div>

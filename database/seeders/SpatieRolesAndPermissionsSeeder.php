@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Enums\PermissionEnum;
 use App\Enums\RoleEnum;
+use App\Models\PermissionSubGroup;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
@@ -18,7 +19,11 @@ class SpatieRolesAndPermissionsSeeder extends Seeder
     {
         // Create Permissions
         foreach (PermissionEnum::cases() as $permission) {
-            Permission::create(['name' => $permission->value]);
+            Permission::create([
+                'name' => $permission->value,
+                'group' => $permission->group(),
+                'sub_group' => $permission->subgroup(),
+            ]);
         }
 
         // Create Roles
@@ -29,46 +34,28 @@ class SpatieRolesAndPermissionsSeeder extends Seeder
 
         // Assign permissions to roles
         // Super Admin gets all permissions
-        $superAdmin->givePermissionTo(
-            PermissionEnum::VIEW_QUEUES->value,
-            PermissionEnum::CREATE_QUEUES->value,
-            PermissionEnum::EDIT_QUEUES->value,
-            PermissionEnum::DELETE_QUEUES->value,
-            PermissionEnum::UPDATE_QUEUES_STATUSES->value,
-            PermissionEnum::MARK_DONE_QUEUES->value,
-            PermissionEnum::MARK_INQUIRED_QUEUES->value,
-            PermissionEnum::MARK_HOLD_QUEUES->value
-        );
+        $superAdmin->givePermissionTo(PermissionEnum::cases());
 
         // Admin gets all permissions
-        $admin->givePermissionTo(
-            PermissionEnum::VIEW_QUEUES->value,
-            PermissionEnum::CREATE_QUEUES->value,
-            PermissionEnum::EDIT_QUEUES->value,
-            PermissionEnum::DELETE_QUEUES->value,
-            PermissionEnum::UPDATE_QUEUES_STATUSES->value,
-            PermissionEnum::MARK_DONE_QUEUES->value,
-            PermissionEnum::MARK_INQUIRED_QUEUES->value,
-            PermissionEnum::MARK_HOLD_QUEUES->value
-        );
+        $admin->givePermissionTo(PermissionEnum::cases());
 
         // Staff gets the basic queue permissions, but no delete and status updates
         $staff->givePermissionTo(
             PermissionEnum::VIEW_QUEUES->value,
             PermissionEnum::CREATE_QUEUES->value,
-            PermissionEnum::EDIT_QUEUES->value,
+            PermissionEnum::UPDATE_QUEUES->value,
             PermissionEnum::DELETE_QUEUES->value,
-            PermissionEnum::UPDATE_QUEUES_STATUSES->value,
-            PermissionEnum::MARK_DONE_QUEUES->value,
-            PermissionEnum::MARK_INQUIRED_QUEUES->value,
-            PermissionEnum::MARK_HOLD_QUEUES->value
+            // PermissionEnum::UPDATE_QUEUES_STATUSES->value,
+            // PermissionEnum::MARK_DONE_QUEUES->value,
+            // PermissionEnum::MARK_INQUIRED_QUEUES->value,
+            // PermissionEnum::MARK_HOLD_QUEUES->value
         );
 
         // Security Guard only has permissions to view and mark queues
         $securityGuard->givePermissionTo(
             PermissionEnum::VIEW_QUEUES->value,
             PermissionEnum::CREATE_QUEUES->value,
-            PermissionEnum::EDIT_QUEUES->value,
+            PermissionEnum::UPDATE_QUEUES->value,
             PermissionEnum::DELETE_QUEUES->value,
         );
     }

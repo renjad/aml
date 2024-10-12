@@ -2,6 +2,7 @@
 
 use App\Livewire\Pages\Queues\Index as QueuesIndex;
 use App\Livewire\Pages\Queues\Projector as QueuesProjector;
+use App\Livewire\Pages\Roles\Index as RolesIndex;
 use App\Livewire\Pages\Users\Index as UsersIndex;
 use Illuminate\Support\Facades\Route;
 
@@ -22,4 +23,5 @@ Route::middleware([
 
     Route::get('/queues', QueuesIndex::class)->name('queues');
     Route::get('/users', UsersIndex::class)->name('users');
+    Route::get('/roles', RolesIndex::class)->name('roles');
 });
